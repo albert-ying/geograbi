@@ -143,12 +143,12 @@ geograbi.read.gse.matrix <- function (filename, data = TRUE) {
 
     ## the first row gives the column names
     colnames(samples) <- sub("!Sample_", "", samples[1,])
-    samples <- data.frame(samples[-1, ], stringsAsFactors = F)
+    samples <- data.frame(samples[-1, ,drop = F], stringsAsFactors = F)
     rownames(samples) <- samples$geo_accession
 
     ## the first row gives the column names
     series.names <- sub("!Series_", "", series[1,])
-    series <- series[-1, ]
+    series <- series[-1, ,drop = F]
     names(series) <- series.names
 
     ## if just sample information requested, then return
@@ -176,7 +176,7 @@ geograbi.read.gse.matrix <- function (filename, data = TRUE) {
     ## the first column identifies the features (rows) of the matrix
     if (nrow(data) > 0) 
         rownames(data) <- data[, 1]
-    data <- as.matrix(data[, -1])
+    data <- as.matrix(data[, -1,drop=F])
 
     rownames(samples) <- colnames(data)
     colnames(data) <- as.character(samples$geo_accession)
